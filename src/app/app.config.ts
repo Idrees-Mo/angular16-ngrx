@@ -5,12 +5,15 @@ import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideHttpClient } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
+import { todoReducer } from './todos/todo.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore(),
+    provideStore({
+      todos: todoReducer,
+    }),
     provideHttpClient(),
     provideEffects(),
   ],
