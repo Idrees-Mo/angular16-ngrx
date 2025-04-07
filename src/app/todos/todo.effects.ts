@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { loadTodos, loadTodosSuccess, loadTodosFailure } from './todo.actions';
 import { Todo } from './todo.model';
 
 @Injectable()
 export class TodoEffects {
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  private actions$ = inject(Actions);
+  private http = inject(HttpClient);
 
   loadTodos$ = createEffect(() =>
     this.actions$.pipe(
