@@ -15,3 +15,15 @@ export const toggleTodo = createAction(
   '[Todo] Toggle',
   props<{ id: number }>()
 );
+
+// loading todos asynchronously
+
+export const loadTodos = createAction('[Todo] Load');
+export const loadTodosSuccess = createAction(
+  '[Todo] Load Success',
+  props<{ todos: Todo[] }>()
+);
+export const loadTodosFailure = createAction(
+  '[Todo] Load Failure',
+  props<{ error: string }>()
+);
