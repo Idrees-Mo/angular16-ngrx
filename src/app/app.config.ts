@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       todos: todoReducer,
     }),
-    provideEffects([TodoEffects]),
+    provideEffects([TodoEffects]), // Register the TodoEffects
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Todo } from './todos/todo.model';
 import { Store } from '@ngrx/store';
-import { addTodo, removeTodo, toggleTodo } from './todos/todo.actions';
+import {
+  addTodo,
+  loadTodos,
+  removeTodo,
+  toggleTodo,
+} from './todos/todo.actions';
 import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
@@ -13,12 +18,16 @@ import { AsyncPipe, NgFor } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ngrx-todo-app';
   todos$!: Observable<Todo[]>; // ! non-null assertion operator, simply tells TypeScript that this property will be initialized later
 
   constructor(private store: Store<{ todos: Todo[] }>) {
     this.todos$ = this.store.select('todos');
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(loadTodos());
   }
 
   addTodo(todoTitle: string) {
