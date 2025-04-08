@@ -1,14 +1,30 @@
 <div>
-  <h1>Todo List</h1>
+  <h1>Todo List (Total: {{ totalTodos$ | async }})</h1>
+
   <input #todoInput type="text" placeholder="New todo" />
   <button (click)="addTodo(todoInput.value); todoInput.value = ''">Add</button>
 
+  <h3>All Todos</h3>
   <ul>
     <li *ngFor="let todo of todos$ | async">
       <span [class.completed]="todo.completed" (click)="toggleTodo(todo.id)">
         {{ todo.title }}
       </span>
       <button (click)="removeTodo(todo.id)">❌</button>
+    </li>
+  </ul>
+
+  <h3>Completed Todos</h3>
+  <ul>
+    <li *ngFor="let todo of completedTodos$ | async">
+      <span class="completed">{{ todo.title }}</span>
+    </li>
+  </ul>
+
+  <h3>Pending Todos</h3>
+  <ul>
+    <li *ngFor="let todo of pendingTodos$ | async">
+      <span>{{ todo.title }}</span>
     </li>
   </ul>
 </div>
