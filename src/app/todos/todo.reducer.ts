@@ -6,11 +6,13 @@ import {
   loadTodosSuccess,
   loadTodos,
   loadTodosFailure,
+  setFilter,
 } from './todo.actions';
-import { Todo } from './todo.model';
+import { Filter, Todo } from './todo.model';
 
 export interface TodoState {
   todos: Todo[];
+  filter: Filter;
   error: string | null;
   loading: boolean;
 }
@@ -20,6 +22,7 @@ const storedTodos = localStorage.getItem('todos');
 export const initialState: TodoState = {
   todos: storedTodos ? JSON.parse(storedTodos) : [],
   error: null,
+  filter: 'all',
   loading: false,
 };
 
@@ -38,6 +41,10 @@ export const todoReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(setFilter, (state, { filter }) => ({
+    ...state,
+    filter,
   })),
   on(addTodo, (state, { todo }) => {
     const updatedState = { ...state, todos: [...state.todos, todo] };
