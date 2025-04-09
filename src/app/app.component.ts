@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Todo } from './todos/todo.model';
+import { Filter, Todo } from './todos/todo.model';
 import { Store } from '@ngrx/store';
 import {
   addTodo,
   loadTodos,
   removeTodo,
+  setFilter,
   toggleTodo,
 } from './todos/todo.actions';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
@@ -14,6 +15,8 @@ import {
   selectAllTodos,
   selectCompletedTodos,
   selectError,
+  selectFilter,
+  selectFilteredTodos,
   selectLoading,
   selectPendingTodos,
   selectTotalTodos,
@@ -29,14 +32,18 @@ import {
 export class AppComponent implements OnInit {
   title = 'ngrx-todo-app';
   todos$!: Observable<Todo[]>; // ! non-null assertion operator, simply tells TypeScript that this property will be initialized later
+  filteredTodos$!: Observable<Todo[]>;
   completedTodos$!: Observable<Todo[]>;
   pendingTodos$!: Observable<Todo[]>;
   totalTodos$!: Observable<number>;
   loading$!: Observable<boolean>;
   error$!: Observable<string | null>;
+  filter$!: Observable<string>;
 
   constructor(private store: Store<{ todos: Todo[] }>) {
     this.todos$ = this.store.select(selectAllTodos);
+    this.filteredTodos$ = this.store.select(selectFilteredTodos);
+    this.filter$ = this.store.select(selectFilter);
     this.completedTodos$ = this.store.select(selectCompletedTodos);
     this.pendingTodos$ = this.store.select(selectPendingTodos);
     this.totalTodos$ = this.store.select(selectTotalTodos);
@@ -63,5 +70,9 @@ export class AppComponent implements OnInit {
 
   toggleTodo(id: number) {
     this.store.dispatch(toggleTodo({ id }));
+  }
+
+  setFilter(filter: Filter) {
+    this.store.dispatch(setFilter({ filter }));
   }
 }
