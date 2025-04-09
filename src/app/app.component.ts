@@ -10,6 +10,12 @@ import {
   toggleTodo,
 } from './todos/todo.actions';
 import { AsyncPipe, NgFor } from '@angular/common';
+import {
+  selectAllTodos,
+  selectCompletedTodos,
+  selectPendingTodos,
+  selectTotalTodos,
+} from './todos/todo.selectors';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +27,15 @@ import { AsyncPipe, NgFor } from '@angular/common';
 export class AppComponent implements OnInit {
   title = 'ngrx-todo-app';
   todos$!: Observable<Todo[]>; // ! non-null assertion operator, simply tells TypeScript that this property will be initialized later
+  completedTodos$!: Observable<Todo[]>;
+  pendingTodos$!: Observable<Todo[]>;
+  totalTodos$!: Observable<number>;
 
   constructor(private store: Store<{ todos: Todo[] }>) {
-    this.todos$ = this.store.select('todos');
+    this.todos$ = this.store.select(selectAllTodos);
+    this.completedTodos$ = this.store.select(selectCompletedTodos);
+    this.pendingTodos$ = this.store.select(selectPendingTodos);
+    this.totalTodos$ = this.store.select(selectTotalTodos);
   }
 
   ngOnInit(): void {
