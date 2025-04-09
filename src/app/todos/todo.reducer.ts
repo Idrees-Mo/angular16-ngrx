@@ -4,30 +4,62 @@ import {
   removeTodo,
   toggleTodo,
   loadTodosSuccess,
+  loadTodos,
+  loadTodosFailure,
 } from './todo.actions';
 import { Todo } from './todo.model';
 
+export interface TodoState {
+  todos: Todo[];
+  error: string | null;
+  loading: boolean;
+}
+
 const storedTodos = localStorage.getItem('todos');
-export const initialState: Todo[] = storedTodos ? JSON.parse(storedTodos) : [];
+// export const initialState: TodoState = storedTodos ? JSON.parse(storedTodos) : [];
+export const initialState: TodoState = {
+  todos: storedTodos ? JSON.parse(storedTodos) : [],
+  error: null,
+  loading: false,
+};
 
 export const todoReducer = createReducer(
   initialState,
-  on(loadTodosSuccess, (state, { todos }) => [...state, ...todos]),
+  on(loadTodos, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(loadTodosSuccess, (state, { todos }) => {
+    const updatedState = { ...state, todos, loading: false, error: null };
+    return updatedState;
+  }),
+  on(loadTodosFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
   on(addTodo, (state, { todo }) => {
-    const updatedState = [...state, todo];
-    localStorage.setItem('todos', JSON.stringify(updatedState));
+    const updatedState = { ...state, todos: [...state.todos, todo] };
+    localStorage.setItem('todos', JSON.stringify(updatedState.todos));
     return updatedState;
   }),
   on(removeTodo, (state, { id }) => {
-    const updatedState = state.filter((todo) => todo.id !== id);
-    localStorage.setItem('todos', JSON.stringify(updatedState));
+    const updatedState = {
+      ...state,
+      todos: state.todos.filter((todo) => todo.id !== id),
+    };
+    localStorage.setItem('todos', JSON.stringify(updatedState.todos));
     return updatedState;
   }),
   on(toggleTodo, (state, { id }) => {
-    const updatedState = state.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-    localStorage.setItem('todos', JSON.stringify(updatedState));
+    const updatedState = {
+      ...state,
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      ),
+    };
+    localStorage.setItem('todos', JSON.stringify(updatedState.todos));
     return updatedState;
   })
 );

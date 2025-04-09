@@ -1,5 +1,8 @@
 <div>
   <h1>Todo List (Total: {{ totalTodos$ | async }})</h1>
+  <div *ngIf="loading$ | async" class="loading">Loading todos...</div>
+
+  <div *ngIf="error$ | async as error" class="error">Error: {{ error }}</div>
 
   <input #todoInput type="text" placeholder="New todo" />
   <button (click)="addTodo(todoInput.value); todoInput.value = ''">Add</button>

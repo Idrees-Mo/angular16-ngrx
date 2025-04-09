@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideStore({
-      todos: todoReducer,
+      todoState: todoReducer,
     }),
     provideEffects([TodoEffects]), // Register the TodoEffects
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
