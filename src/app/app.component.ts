@@ -9,10 +9,12 @@ import {
   removeTodo,
   toggleTodo,
 } from './todos/todo.actions';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   selectAllTodos,
   selectCompletedTodos,
+  selectError,
+  selectLoading,
   selectPendingTodos,
   selectTotalTodos,
 } from './todos/todo.selectors';
@@ -20,7 +22,7 @@ import {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgFor, AsyncPipe],
+  imports: [NgFor, NgIf, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -30,12 +32,16 @@ export class AppComponent implements OnInit {
   completedTodos$!: Observable<Todo[]>;
   pendingTodos$!: Observable<Todo[]>;
   totalTodos$!: Observable<number>;
+  loading$!: Observable<boolean>;
+  error$!: Observable<string | null>;
 
   constructor(private store: Store<{ todos: Todo[] }>) {
     this.todos$ = this.store.select(selectAllTodos);
     this.completedTodos$ = this.store.select(selectCompletedTodos);
     this.pendingTodos$ = this.store.select(selectPendingTodos);
     this.totalTodos$ = this.store.select(selectTotalTodos);
+    this.loading$ = this.store.select(selectLoading);
+    this.error$ = this.store.select(selectError);
   }
 
   ngOnInit(): void {

@@ -4,12 +4,15 @@ import {
   removeTodo,
   toggleTodo,
   loadTodosSuccess,
+  loadTodos,
+  loadTodosFailure,
 } from './todo.actions';
 import { Todo } from './todo.model';
 
 export interface TodoState {
   todos: Todo[];
   error: string | null;
+  loading: boolean;
 }
 
 const storedTodos = localStorage.getItem('todos');
@@ -17,14 +20,25 @@ const storedTodos = localStorage.getItem('todos');
 export const initialState: TodoState = {
   todos: storedTodos ? JSON.parse(storedTodos) : [],
   error: null,
+  loading: false,
 };
 
 export const todoReducer = createReducer(
   initialState,
+  on(loadTodos, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
   on(loadTodosSuccess, (state, { todos }) => {
-    const updatedState = { ...state, todos };
+    const updatedState = { ...state, todos, loading: false, error: null };
     return updatedState;
   }),
+  on(loadTodosFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
   on(addTodo, (state, { todo }) => {
     const updatedState = { ...state, todos: [...state.todos, todo] };
     localStorage.setItem('todos', JSON.stringify(updatedState.todos));

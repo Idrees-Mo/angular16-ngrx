@@ -24,3 +24,13 @@ export const selectTotalTodos = createSelector(
   selectTodosFeature,
   (state) => state.todos.length
 );
+
+export const selectLoading = createSelector(
+  selectTodosFeature,
+  (state) => state.loading
+);
+
+export const selectError = createSelector(
+  selectTodosFeature,
+  (state) => state.error
+);
