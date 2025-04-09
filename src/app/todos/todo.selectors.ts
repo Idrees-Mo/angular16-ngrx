@@ -34,3 +34,23 @@ export const selectError = createSelector(
   selectTodosFeature,
   (state) => state.error
 );
+
+export const selectFilter = createSelector(
+  selectTodosFeature,
+  (state) => state.filter
+);
+// This selector retrieves the filter value from the state
+export const selectFilteredTodos = createSelector(
+  selectAllTodos,
+  selectFilter,
+  (todos, filter) => {
+    switch (filter) {
+      case 'completed':
+        return todos.filter((todo) => todo.completed);
+      case 'incomplete':
+        return todos.filter((todo) => !todo.completed);
+      default:
+        return todos;
+    }
+  }
+);

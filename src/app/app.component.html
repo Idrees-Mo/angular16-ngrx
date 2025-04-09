@@ -16,18 +16,16 @@
       <button (click)="removeTodo(todo.id)">❌</button>
     </li>
   </ul>
-
-  <h3>Completed Todos</h3>
-  <ul>
-    <li *ngFor="let todo of completedTodos$ | async">
-      <span class="completed">{{ todo.title }}</span>
-    </li>
-  </ul>
-
-  <h3>Pending Todos</h3>
-  <ul>
-    <li *ngFor="let todo of pendingTodos$ | async">
-      <span>{{ todo.title }}</span>
-    </li>
-  </ul>
 </div>
+
+<div>
+  <button (click)="setFilter('all')">All</button>
+  <button (click)="setFilter('completed')">Completed</button>
+  <button (click)="setFilter('incomplete')">Incomplete</button>
+</div>
+
+<ul>
+  <li *ngFor="let todo of filteredTodos$ | async">
+    {{ todo.title }} - {{ todo.completed ? "✅" : "❌" }}
+  </li>
+</ul>
