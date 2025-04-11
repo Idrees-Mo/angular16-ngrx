@@ -8,7 +8,7 @@ import {
   loadTodosFailure,
   setFilter,
 } from './todo.actions';
-import { Filter, Todo } from './todo.model';
+import { Filter, Todo } from '../models/todo.model';
 
 export interface TodoState {
   todos: Todo[];

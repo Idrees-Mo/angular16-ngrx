@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Filter, Todo } from './todos/todo.model';
+import { Filter, Todo } from './todos/models/todo.model';
 import { Store } from '@ngrx/store';
 import {
   addTodo,
@@ -9,7 +9,7 @@ import {
   removeTodo,
   setFilter,
   toggleTodo,
-} from './todos/todo.actions';
+} from './todos/state/todo.actions';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   selectAllTodos,
@@ -20,7 +20,7 @@ import {
   selectLoading,
   selectPendingTodos,
   selectTotalTodos,
-} from './todos/todo.selectors';
+} from './todos/state/todo.selectors';
 
 @Component({
   selector: 'app-root',
