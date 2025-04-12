@@ -1,1 +1,6 @@
-<p>todo-item works!</p>
+<li>
+  <span [style.textDecoration]="todo.completed ? 'line-through' : 'none'">
+    {{ todo.title }}
+  </span>
+  <button (click)="view.emit(todo.id)">View</button>
+</li>
