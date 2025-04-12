@@ -8,6 +8,7 @@ import {
   selectRouteParam,
   selectRouter,
 } from '../../../shared/router/router.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-detail',
@@ -20,12 +21,17 @@ export class TodoDetailComponent {
   todoId$: string | unknown;
   todo$: Observable<Todo | undefined>;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.todo$ = combineLatest([
       this.store.select(selectAllTodos),
       this.store.select(selectTodoIdParam),
     ]).pipe(map(([todos, id]) => todos.find((todo) => todo.id === +id!)));
+  }
 
-    this.store.select(selectRouter).subscribe(console.warn);
+  goBack(): void {
+    this.router.navigate(['/']);
+
+    // Alternative way to navigate back using the location service
+    // this.location.back();
   }
 }
