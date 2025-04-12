@@ -1,1 +1,7 @@
-<p>todo-detail works!</p>
+<ng-container *ngIf="todo$ | async as todo; else loading">
+  <h2>Todo Detail</h2>
+  <p><strong>ID:</strong> {{ todo.id }}</p>
+  <p><strong>Title:</strong> {{ todo.title }}</p>
+  <p><strong>Status:</strong> {{ todo.completed ? "Done" : "Pending" }}</p>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>
