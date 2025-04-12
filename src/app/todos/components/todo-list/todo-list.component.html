@@ -1,0 +1,8 @@
+<ul>
+  <app-todo-item
+    *ngFor="let todo of todos"
+    [todo]="todo"
+    (view)="view.emit($event)"
+  >
+  </app-todo-item>
+</ul>
