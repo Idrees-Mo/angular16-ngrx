@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TodoState } from './todo.reducer';
+import { selectRouteParam } from '../../shared/router/router.selector';
 
 export const selectTodosFeature = createFeatureSelector<TodoState>('todoState');
 
@@ -53,3 +54,6 @@ export const selectFilteredTodos = createSelector(
     }
   }
 );
+
+// This selector retrieves the todo ID from the route parameters
+export const selectTodoIdParam = selectRouteParam('id');
