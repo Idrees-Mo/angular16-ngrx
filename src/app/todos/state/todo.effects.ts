@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { loadTodos, loadTodosSuccess, loadTodosFailure } from './todo.actions';
-import { Todo } from './todo.model';
+import { Todo } from '../models/todo.model';
 
 @Injectable()
 export class TodoEffects {
