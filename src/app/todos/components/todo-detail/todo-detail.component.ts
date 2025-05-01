@@ -1,13 +1,9 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, filter, map } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { selectAllTodos, selectTodoIdParam } from '../../state/todo.selectors';
 import { Todo } from '../../models/todo.model';
-import {
-  selectRouteParam,
-  selectRouter,
-} from '../../../shared/router/router.selector';
 import { Router } from '@angular/router';
 
 @Component({
